@@ -1,15 +1,19 @@
 import styled from 'styled-components'
 
-export const HeaderContainer = styled.div`
+export const HeaderContainer = styled.nav`
   display: flex;
   background-color: ${props => (props.isDarkTheme ? '#1e293b' : '#f8fafc')};
+  margin: 0;
 `
-export const MainContainer = styled.div`
+export const MainContainer = styled.ul`
   display: flex;
   flex-direction: column;
   width: 100vw;
+  padding: 0;
+  list-style-type: none;
+  margin: 0;
 `
-export const DesktopContainer = styled.div`
+export const DesktopContainer = styled.li`
   display: none;
   justify-content: space-between;
   align-items: center;
@@ -53,7 +57,7 @@ export const LogoutButton = styled.button`
   color: ${props => (props.isDarkTheme ? '#f8fafc' : '#3b82f6')};
   cursor: pointer;
 `
-export const MobileContainer = styled.div`
+export const MobileContainer = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -63,4 +67,7 @@ export const MobileContainer = styled.div`
   @media screen and (min-width: 768px) {
     display: none;
   }
+`
+export const ProfileImage = styled.img`
+  width: 35px;
 `

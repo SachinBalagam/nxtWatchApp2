@@ -56,7 +56,7 @@ const SideNavMenu = () => (
               />
             </SocialIconsContainer>
             <BottomDescription isDarkTheme={isDarkTheme}>
-              Enjoy! Now to see your channels and recommendations
+              Enjoy! Now to see your channels and recommendations!
             </BottomDescription>
           </BottomContainer>
         </SideMenuContainer>

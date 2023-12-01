@@ -1,4 +1,5 @@
-import {FaMoon, FaUserCircle, FaSun} from 'react-icons/fa'
+import {Link} from 'react-router-dom'
+import {FaMoon, FaSun} from 'react-icons/fa'
 import {GiHamburgerMenu} from 'react-icons/gi'
 import {FiLogOut} from 'react-icons/fi'
 import ThemeContext from '../../ThemeContext/index'
@@ -11,6 +12,7 @@ import {
   LogoutButton,
   Button,
   MobileContainer,
+  ProfileImage,
 } from './styledComponents'
 
 const Header = () => (
@@ -28,7 +30,33 @@ const Header = () => (
         <HeaderContainer isDarkTheme={isDarkTheme}>
           <MainContainer>
             <DesktopContainer>
-              <WebsiteLogo src={websiteLogoUrl} alt="website logo" />
+              <Link to="/">
+                <WebsiteLogo src={websiteLogoUrl} alt="website logo" />
+              </Link>
+              <IconsContainer>
+                <Button
+                  type="button"
+                  onClick={onThemeChange}
+                  data-testid="theme"
+                  isDarkTheme={isDarkTheme}
+                >
+                  {ThemeLogo}
+                </Button>
+                <Button type="button">
+                  <ProfileImage
+                    src="https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png"
+                    alt="profile"
+                  />
+                </Button>
+                <LogoutButton type="button" isDarkTheme={isDarkTheme}>
+                  Logout
+                </LogoutButton>
+              </IconsContainer>
+            </DesktopContainer>
+            <MobileContainer>
+              <Link to="/">
+                <WebsiteLogo src={websiteLogoUrl} alt="website logo" />
+              </Link>
               <IconsContainer>
                 <Button
                   type="button"
@@ -39,27 +67,9 @@ const Header = () => (
                   {ThemeLogo}
                 </Button>
                 <Button type="button" isDarkTheme={isDarkTheme}>
-                  <FaUserCircle />
-                </Button>
-                <LogoutButton type="button" isDarkTheme={isDarkTheme}>
-                  Logout
-                </LogoutButton>
-              </IconsContainer>
-            </DesktopContainer>
-            <MobileContainer>
-              <WebsiteLogo src={websiteLogoUrl} alt="website logo" />
-              <IconsContainer>
-                <Button
-                  type="button"
-                  onClick={onThemeChange}
-                  data-testid="theme"
-                >
-                  <FaMoon />
-                </Button>
-                <Button type="button">
                   <GiHamburgerMenu />
                 </Button>
-                <Button type="button">
+                <Button type="button" isDarkTheme={isDarkTheme}>
                   <FiLogOut />
                 </Button>
               </IconsContainer>

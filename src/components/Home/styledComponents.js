@@ -1,6 +1,9 @@
 import styled from 'styled-components'
+import {Link} from 'react-router-dom'
 
-export const HomeContainer = styled.div``
+export const HomeContainer = styled.div`
+  background-color: ${props => (props.isDarkTheme ? '#181818' : '#f9f9f9')};
+`
 
 export const MainContainer = styled.div`
   display: flex;
@@ -46,7 +49,6 @@ export const BannerCloseButton = styled.button`
   cursor: pointer;
 `
 export const SearchAndListContainer = styled.div`
-  background-color: ${props => (props.isDarkTheme ? '#181818' : '#f9f9f9')};
   min-height: 60vh;
   display: flex;
   flex-direction: column;
@@ -124,6 +126,9 @@ export const SuccessViewContainer = styled.ul`
 export const EachVideoContainer = styled.li`
   width: 300px;
   margin: 20px;
+`
+export const CustomLink = styled(Link)`
+  text-decoration: none;
 `
 export const ImageContainer = styled.div``
 export const VideoThumbnail = styled.img`

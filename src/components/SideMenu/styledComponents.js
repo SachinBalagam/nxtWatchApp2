@@ -31,7 +31,7 @@ export const NavTitle = styled.p`
   font-size: 16px;
 `
 export const BottomContainer = styled.div``
-export const BottomHeading = styled.h1`
+export const BottomHeading = styled.p`
   font-family: 'Roboto';
   font-size: 20px;
   margin-bottom: 20px;

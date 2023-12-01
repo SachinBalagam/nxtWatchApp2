@@ -1,4 +1,5 @@
 import {Component} from 'react'
+
 import Cookies from 'js-cookie'
 import {RiCloseLine} from 'react-icons/ri'
 import {BsSearch, BsDot} from 'react-icons/bs'
@@ -27,6 +28,7 @@ import {
   SearchButton,
   SuccessViewContainer,
   EachVideoContainer,
+  CustomLink,
   ImageContainer,
   ImageAndDescriptionContainer,
   DescriptionContainer,
@@ -77,6 +79,7 @@ class Home extends Component {
 
   onClickSearchInputButton = () => {
     const {searchInput} = this.state
+    this.setState({searchInput}, this.getVideosList)
   }
 
   onClickRetry = () => {
@@ -84,9 +87,10 @@ class Home extends Component {
   }
 
   getVideosList = async () => {
+    const {searchInput} = this.state
     this.setState({apiStatus: apiStatusConstants.inProgress})
     const jwtToken = Cookies.get('jwt_token')
-    const url = 'https://apis.ccbp.in/videos/all?search='
+    const url = `https://apis.ccbp.in/videos/all?search=${searchInput}`
     const options = {
       method: 'GET',
       headers: {
@@ -111,70 +115,75 @@ class Home extends Component {
         videosList: updatedData,
         apiStatus: apiStatusConstants.success,
       })
+    } else {
+      this.setState({apiStatus: apiStatusConstants.failure})
     }
-    this.setState({apiStatus: apiStatusConstants.failure})
   }
 
-  renderSuccessView = () => (
-    <ThemeContext.Consumer>
-      {value => {
-        const {isDarkTheme} = value
-        const {videosList, searchInput} = this.state
-        const filteredList = videosList.filter(each =>
-          each.title.toLowerCase().includes(searchInput.toLowerCase()),
-        )
-        return filteredList.length > 0 ? (
-          <SuccessViewContainer>
-            {filteredList.map(each => (
-              <EachVideoContainer key={each.id}>
-                <ImageContainer>
-                  <VideoThumbnail src={each.thumbnailUrl} alt="thumbnail" />
-                </ImageContainer>
-                <ImageAndDescriptionContainer>
-                  <ChannelThumbnailContainer>
-                    <ChannelThumbnail
-                      src={each.channel.profileImageUrl}
-                      alt="thumbnail"
-                    />
-                  </ChannelThumbnailContainer>
-                  <DescriptionContainer>
-                    <VideoTitle isDarkTheme={isDarkTheme}>
-                      {each.title}
-                    </VideoTitle>
-                    <ChannelName>{each.channel.name}</ChannelName>
-                    <ViewCountAndPublishContainer>
-                      <Views>{each.viewCount} views</Views>
-                      <BsDot />
-                      <PublishedAt>
-                        {formatDistanceToNow(new Date(each.publishedAt)).slice(
-                          -7,
-                        )}
-                        ago
-                      </PublishedAt>
-                    </ViewCountAndPublishContainer>
-                  </DescriptionContainer>
-                </ImageAndDescriptionContainer>
-              </EachVideoContainer>
-            ))}
-          </SuccessViewContainer>
-        ) : (
-          <NoVideosViewContainer>
-            <NoVideosViewImage
-              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png"
-              alt="no videos"
-            />
-            <NoVideosViewHeading>No Search Results Found</NoVideosViewHeading>
-            <NoVideosViewDescription>
-              Try different key words or remove search filter
-            </NoVideosViewDescription>
-            <NoVideosViewButton type="button" onClick={this.onClickRetry}>
-              Retry
-            </NoVideosViewButton>
-          </NoVideosViewContainer>
-        )
-      }}
-    </ThemeContext.Consumer>
-  )
+  renderSuccessView = () => {
+    const {videosList} = this.state
+    return (
+      <ThemeContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+          return videosList.length > 0 ? (
+            <SuccessViewContainer>
+              {videosList.map(each => (
+                <EachVideoContainer key={each.id}>
+                  <CustomLink to={`/videos/${each.id}`}>
+                    <ImageContainer>
+                      <VideoThumbnail
+                        src={each.thumbnailUrl}
+                        alt="video thumbnail"
+                      />
+                    </ImageContainer>
+                    <ImageAndDescriptionContainer>
+                      <ChannelThumbnailContainer>
+                        <ChannelThumbnail
+                          src={each.channel.profileImageUrl}
+                          alt="channel logo"
+                        />
+                      </ChannelThumbnailContainer>
+                      <DescriptionContainer>
+                        <VideoTitle isDarkTheme={isDarkTheme}>
+                          {each.title}
+                        </VideoTitle>
+                        <ChannelName>{each.channel.name}</ChannelName>
+                        <ViewCountAndPublishContainer>
+                          <Views>{each.viewCount} views</Views>
+                          <BsDot />
+                          <PublishedAt>
+                            {formatDistanceToNow(
+                              new Date(each.publishedAt),
+                            ).slice(-7)}
+                            ago
+                          </PublishedAt>
+                        </ViewCountAndPublishContainer>
+                      </DescriptionContainer>
+                    </ImageAndDescriptionContainer>
+                  </CustomLink>
+                </EachVideoContainer>
+              ))}
+            </SuccessViewContainer>
+          ) : (
+            <NoVideosViewContainer>
+              <NoVideosViewImage
+                src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png"
+                alt="no videos"
+              />
+              <NoVideosViewHeading>No Search Results Found</NoVideosViewHeading>
+              <NoVideosViewDescription>
+                Try different key words or remove search filter
+              </NoVideosViewDescription>
+              <NoVideosViewButton type="button" onClick={this.onClickRetry}>
+                Retry
+              </NoVideosViewButton>
+            </NoVideosViewContainer>
+          )
+        }}
+      </ThemeContext.Consumer>
+    )
+  }
 
   renderFailureView = () => (
     <FailureViewContainer>
@@ -200,6 +209,7 @@ class Home extends Component {
 
   renderListView = () => {
     const {apiStatus} = this.state
+    console.log(apiStatus)
     switch (apiStatus) {
       case apiStatusConstants.success:
         return this.renderSuccessView()
@@ -219,7 +229,7 @@ class Home extends Component {
         {value => {
           const {isDarkTheme} = value
           return (
-            <HomeContainer>
+            <HomeContainer isDarkTheme={isDarkTheme}>
               <Header />
               <MainContainer>
                 <SideNavMenu />
@@ -244,19 +254,20 @@ class Home extends Component {
                       </BannerCloseButton>
                     </BannerContainer>
                   )}
-                  <SearchAndListContainer isDarkTheme={isDarkTheme}>
+                  <SearchAndListContainer>
                     <SearchBarContainer>
                       <SearchInput
                         type="search"
                         placeholder="Search"
                         onChange={this.onChangeSearchInput}
                         value={searchInput}
+                        data-testid="searchButton"
                       />
                       <SearchButton onClick={this.onClickSearchInputButton}>
                         <BsSearch />
                       </SearchButton>
                     </SearchBarContainer>
-                    {this.renderSuccessView()}
+                    {this.renderListView()}
                   </SearchAndListContainer>
                 </BannerAndListContainer>
               </MainContainer>
