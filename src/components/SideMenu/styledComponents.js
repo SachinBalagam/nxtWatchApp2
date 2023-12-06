@@ -14,10 +14,14 @@ export const SideMenuContainer = styled.div`
     display: flex;
   }
 `
-export const NavContainer = styled.div`
+export const NavContainer = styled.ul`
   display: flex;
   flex-direction: column;
+  padding-left: 0;
+  list-style-type: none;
 `
+export const NavList = styled.li``
+
 export const NavLink = styled(Link)`
   color: ${props => (props.isDarkTheme ? '#ffffff' : '#64748b')};
   text-decoration: none;

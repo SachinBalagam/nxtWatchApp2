@@ -5,6 +5,7 @@ import {RiPlayListAddLine} from 'react-icons/ri'
 import {
   SideMenuContainer,
   NavContainer,
+  NavList,
   NavLink,
   NavTitle,
   BottomContainer,
@@ -22,22 +23,30 @@ const SideNavMenu = () => (
       return (
         <SideMenuContainer isDarkTheme={isDarkTheme}>
           <NavContainer>
-            <NavLink to="/" isDarkTheme={isDarkTheme}>
-              <AiFillHome />
-              <NavTitle> Home</NavTitle>
-            </NavLink>
-            <NavLink to="/trending" isDarkTheme={isDarkTheme}>
-              <FaGamepad />
-              <NavTitle>Trending</NavTitle>
-            </NavLink>
-            <NavLink to="/gaming" isDarkTheme={isDarkTheme}>
-              <HiFire />
-              <NavTitle>Gaming</NavTitle>
-            </NavLink>
-            <NavLink to="/saved-videos" isDarkTheme={isDarkTheme}>
-              <RiPlayListAddLine />
-              <NavTitle> Saved Videos</NavTitle>
-            </NavLink>
+            <NavList>
+              <NavLink to="/" isDarkTheme={isDarkTheme}>
+                <AiFillHome />
+                <NavTitle> Home</NavTitle>
+              </NavLink>
+            </NavList>
+            <NavList>
+              <NavLink to="/trending" isDarkTheme={isDarkTheme}>
+                <FaGamepad />
+                <NavTitle>Trending</NavTitle>
+              </NavLink>
+            </NavList>
+            <NavList>
+              <NavLink to="/gaming" isDarkTheme={isDarkTheme}>
+                <HiFire />
+                <NavTitle>Gaming</NavTitle>
+              </NavLink>
+            </NavList>
+            <NavList>
+              <NavLink to="/saved-videos" isDarkTheme={isDarkTheme}>
+                <RiPlayListAddLine />
+                <NavTitle> Saved Videos</NavTitle>
+              </NavLink>
+            </NavList>
           </NavContainer>
           <BottomContainer>
             <BottomHeading isDarkTheme={isDarkTheme}>CONTACT US</BottomHeading>

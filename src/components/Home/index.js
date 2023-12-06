@@ -156,7 +156,7 @@ class Home extends Component {
                             {formatDistanceToNow(
                               new Date(each.publishedAt),
                             ).slice(-7)}
-                            ago
+                            &nbsp ago
                           </PublishedAt>
                         </ViewCountAndPublishContainer>
                       </DescriptionContainer>
@@ -244,7 +244,7 @@ class Home extends Component {
                         <BannerDescription>
                           Buy Nxt Watch Premium Prepaid plans with UPI
                         </BannerDescription>
-                        <BannerButton>GET IT NOW</BannerButton>
+                        <BannerButton type="button">GET IT NOW</BannerButton>
                       </BannerCard>
                       <BannerCloseButton
                         onClick={this.onChangeShowBanner}
@@ -261,9 +261,12 @@ class Home extends Component {
                         placeholder="Search"
                         onChange={this.onChangeSearchInput}
                         value={searchInput}
-                        data-testid="searchButton"
                       />
-                      <SearchButton onClick={this.onClickSearchInputButton}>
+                      <SearchButton
+                        onClick={this.onClickSearchInputButton}
+                        data-testid="searchButton"
+                        type="button"
+                      >
                         <BsSearch />
                       </SearchButton>
                     </SearchBarContainer>
