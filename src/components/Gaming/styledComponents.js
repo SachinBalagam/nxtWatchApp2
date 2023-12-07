@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import {Link} from 'react-router-dom'
 
 export const TrendingContainer = styled.div`
-  background-color: #f9f9f9;
+  background-color: ${props => (props.isdark ? '#0f0f0f' : '#f9f9f9')};
 `
 export const MainContainer = styled.div`
   display: flex;
@@ -81,7 +81,7 @@ export const DescriptionContainer = styled.div``
 export const Title = styled.p`
   font-family: 'Roboto';
   font-size: 20px;
-  color: #000000;
+  color: ${props => (props.isdark ? '#ffffff' : '#000000')};
   margin-bottom: 5px;
 `
 

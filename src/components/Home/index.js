@@ -156,7 +156,7 @@ class Home extends Component {
                             {formatDistanceToNow(
                               new Date(each.publishedAt),
                             ).slice(-7)}
-                            &nbsp ago
+                            {' ago'}
                           </PublishedAt>
                         </ViewCountAndPublishContainer>
                       </DescriptionContainer>
@@ -229,7 +229,7 @@ class Home extends Component {
         {value => {
           const {isDarkTheme} = value
           return (
-            <HomeContainer isDarkTheme={isDarkTheme}>
+            <HomeContainer isDarkTheme={isDarkTheme} data-testid="home">
               <Header />
               <MainContainer>
                 <SideNavMenu />

@@ -26,8 +26,11 @@ const Header = () => (
         ? 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-dark-theme-img.png'
         : 'https://assets.ccbp.in/frontend/react-js/nxt-watch-logo-light-theme-img.png'
       const ThemeLogo = isDarkTheme ? <FaSun /> : <FaMoon />
+      const bgColor = isDarkTheme ? '#231f20' : '#f8fafc'
+      const color = isDarkTheme ? '#f8fafc' : ''
+      const border = isDarkTheme ? '#f8fafc' : '#3b82f6'
       return (
-        <HeaderContainer isDarkTheme={isDarkTheme}>
+        <HeaderContainer bgColor={bgColor}>
           <MainContainer>
             <DesktopContainer>
               <Link to="/">
@@ -38,17 +41,17 @@ const Header = () => (
                   type="button"
                   onClick={onThemeChange}
                   data-testid="theme"
-                  isDarkTheme={isDarkTheme}
+                  color={color}
                 >
                   {ThemeLogo}
                 </Button>
-                <Button type="button">
+                <Button type="button" color={color}>
                   <ProfileImage
                     src="https://assets.ccbp.in/frontend/react-js/nxt-watch-profile-img.png"
                     alt="profile"
                   />
                 </Button>
-                <LogoutButton type="button" isDarkTheme={isDarkTheme}>
+                <LogoutButton type="button" border={border}>
                   Logout
                 </LogoutButton>
               </IconsContainer>
@@ -62,14 +65,14 @@ const Header = () => (
                   type="button"
                   onClick={onThemeChange}
                   data-testid="theme"
-                  isDarkTheme={isDarkTheme}
+                  color={color}
                 >
                   {ThemeLogo}
                 </Button>
-                <Button type="button" isDarkTheme={isDarkTheme}>
+                <Button type="button" color={color}>
                   <GiHamburgerMenu />
                 </Button>
-                <Button type="button" isDarkTheme={isDarkTheme}>
+                <Button type="button" color={color}>
                   <FiLogOut />
                 </Button>
               </IconsContainer>

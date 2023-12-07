@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
-export const VideoItemDetailsContainer = styled.div``
+export const VideoItemDetailsContainer = styled.div`
+  background-color: ${props => (props.isdark ? '#0f0f0f' : '#f9f9f9')};
+`
 export const MainContainer = styled.div`
   display: flex;
   min-height: 80vh;
@@ -61,6 +63,7 @@ export const SuccessViewContainer = styled.div`
 export const SuccessViewHeading = styled.p`
   font-family: 'Roboto';
   margin-bottom: 5px;
+  color: ${props => (props.isdark ? '#ffffff' : '#000000')};
 `
 export const SubContainer = styled.div`
   width: 100%;
@@ -74,9 +77,11 @@ export const CountAndDateContainer = styled.div`
 `
 export const ViewCount = styled.p`
   font-family: 'Roboto';
+  color: ${props => (props.isdark ? '#ffffff' : '#000000')};
 `
 export const PublishDate = styled.p`
   font-family: 'Roboto';
+  color: ${props => (props.isdark ? '#ffffff' : '#000000')};
 `
 export const LikeDislikeContainer = styled.div`
   display: flex;
@@ -94,6 +99,7 @@ export const LikeContainer = styled.button`
 export const Like = styled.p`
   font-family: 'Roboto';
   margin-left: 5px;
+  color: ${props => props.color};
 `
 export const DislikeContainer = styled.button`
   display: flex;
@@ -107,6 +113,7 @@ export const DislikeContainer = styled.button`
 export const Dislike = styled.p`
   font-family: 'Roboto';
   margin-left: 5px;
+  color: ${props => props.color};
 `
 export const SavedContainer = styled.button`
   display: flex;
@@ -119,6 +126,7 @@ export const SavedContainer = styled.button`
 export const Saved = styled.p`
   font-family: 'Roboto';
   margin-left: 5px;
+  color: ${props => props.color};
 `
 
 export const VideoPlayer = styled.div`
@@ -140,6 +148,7 @@ export const ChannelName = styled.p`
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 0;
+  color: ${props => (props.isdark ? '#ffffff' : '#000000')};
 `
 export const ChannelSubCount = styled.p`
   font-family: 'Roboto';
@@ -149,4 +158,5 @@ export const ChannelSubCount = styled.p`
 `
 export const ChannelDescription = styled.p`
   font-family: 'Roboto';
+  color: ${props => (props.isdark ? '#ffffff' : '#000000')};
 `

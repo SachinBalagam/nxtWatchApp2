@@ -37,6 +37,7 @@ import {
   ChannelSubCount,
   ChannelDescription,
 } from './styledComponents'
+import ThemeContext from '../../ThemeContext'
 
 const apiStatusConstants = {
   success: 'SUCCESS',
@@ -46,7 +47,12 @@ const apiStatusConstants = {
 }
 
 class VideoItemDetails extends Component {
-  state = {videoItemDetails: {}, apiStatus: apiStatusConstants.initial}
+  state = {
+    videoItemDetails: {},
+    apiStatus: apiStatusConstants.initial,
+    isLiked: false,
+    isDisliked: false,
+  }
 
   componentDidMount() {
     this.getSpecificVideoItemDetails()
@@ -116,61 +122,102 @@ class VideoItemDetails extends Component {
     </LoadingViewContainer>
   )
 
-  renderSuccessView = () => {
-    const {videoItemDetails} = this.state
-    const {
-      title,
-      viewCount,
-      publishedAt,
-      channel,
-      description,
-    } = videoItemDetails
-    const {profileImageUrl, name, subscriberCount} = channel
-    console.log(videoItemDetails)
-    return (
-      <SuccessViewContainer>
-        <VideoPlayer>
-          <ReactPlayer
-            url={videoItemDetails.videoUrl}
-            controls
-            width="100%"
-            height="70vh"
-          />
-        </VideoPlayer>
-        <SuccessViewHeading>{title}</SuccessViewHeading>
-        <SubContainer>
-          <CountAndDateContainer>
-            <ViewCount>{viewCount} views</ViewCount>
-            <BsDot />
-            <PublishDate>{publishedAt}</PublishDate>
-          </CountAndDateContainer>
-          <LikeDislikeContainer>
-            <LikeContainer type="button">
-              <BiLike />
-              <Like>Like</Like>
-            </LikeContainer>
-            <DislikeContainer type="button">
-              <BiDislike />
-              <Dislike>Dislike</Dislike>
-            </DislikeContainer>
-            <SavedContainer type="button">
-              <RiPlayListAddLine />
-              <Saved>Save</Saved>
-            </SavedContainer>
-          </LikeDislikeContainer>
-        </SubContainer>
-        <hr />
-        <ChannelDetailsContainer>
-          <ChannelImage src={profileImageUrl} alt="channel logo" />
-          <ChannelDescriptionCard>
-            <ChannelName>{name}</ChannelName>
-            <ChannelSubCount>{subscriberCount} subscribers</ChannelSubCount>
-            <ChannelDescription>{description}</ChannelDescription>
-          </ChannelDescriptionCard>
-        </ChannelDetailsContainer>
-      </SuccessViewContainer>
-    )
-  }
+  renderSuccessView = () => (
+    <ThemeContext.Consumer>
+      {value => {
+        const {addVideo, savedVideos, isDarkTheme} = value
+        const {videoItemDetails, isLiked, isDisliked} = this.state
+        const {
+          title,
+          viewCount,
+          publishedAt,
+          channel,
+          description,
+        } = videoItemDetails
+        const {profileImageUrl, name, subscriberCount} = channel
+        let isSaved
+
+        const status = savedVideos.findIndex(
+          eachVideo => eachVideo.id === videoItemDetails.id,
+        )
+        if (status === -1) {
+          isSaved = false
+        } else {
+          isSaved = true
+        }
+
+        const onClickLike = () => {
+          this.setState(prevState => ({
+            isLiked: !prevState.isLiked,
+            isDisliked: false,
+          }))
+        }
+
+        const onClickDisLike = () => {
+          this.setState(prevState => ({
+            isDisliked: !prevState.isDisliked,
+            isLiked: false,
+          }))
+        }
+
+        const onClickSaveButton = () => {
+          addVideo(videoItemDetails)
+        }
+
+        return (
+          <SuccessViewContainer>
+            <VideoPlayer>
+              <ReactPlayer
+                url={videoItemDetails.videoUrl}
+                controls
+                width="100%"
+                height="70vh"
+              />
+            </VideoPlayer>
+            <SuccessViewHeading isdark={isDarkTheme}>
+              {title}
+            </SuccessViewHeading>
+            <SubContainer>
+              <CountAndDateContainer>
+                <ViewCount isdark={isDarkTheme}>{viewCount} views</ViewCount>
+                <BsDot />
+                <PublishDate isdark={isDarkTheme}>{publishedAt}</PublishDate>
+              </CountAndDateContainer>
+              <LikeDislikeContainer>
+                <LikeContainer type="button" onClick={onClickLike}>
+                  <BiLike color={isLiked ? '#2563eb' : '#64748b'} />
+                  <Like color={isLiked ? '#2563eb' : '#64748b'}>Like</Like>
+                </LikeContainer>
+                <DislikeContainer type="button" onClick={onClickDisLike}>
+                  <BiDislike color={isDisliked ? '#2563eb' : '#64748b'} />
+                  <Dislike color={isDisliked ? '#2563eb' : '#64748b'}>
+                    Dislike
+                  </Dislike>
+                </DislikeContainer>
+                <SavedContainer type="button" onClick={onClickSaveButton}>
+                  <RiPlayListAddLine color={isSaved ? '#2563eb' : '#64748b'} />
+                  <Saved color={isSaved ? '#2563eb' : '#64748b'}>
+                    {isSaved ? 'Saved' : 'Save'}
+                  </Saved>
+                </SavedContainer>
+              </LikeDislikeContainer>
+            </SubContainer>
+            <hr />
+            <ChannelDetailsContainer>
+              <ChannelImage src={profileImageUrl} alt="channel logo" />
+              <ChannelDescriptionCard>
+                <ChannelName isdark={isDarkTheme}>{name}</ChannelName>
+                <ChannelSubCount>{subscriberCount} subscribers</ChannelSubCount>
+                <ChannelDescription isdark={isDarkTheme}>
+                  {description}
+                </ChannelDescription>
+              </ChannelDescriptionCard>
+            </ChannelDetailsContainer>
+          </SuccessViewContainer>
+        )
+      }}
+    </ThemeContext.Consumer>
+  )
 
   renderListView = () => {
     const {apiStatus} = this.state
@@ -189,13 +236,23 @@ class VideoItemDetails extends Component {
 
   render() {
     return (
-      <VideoItemDetailsContainer>
-        <Header />
-        <MainContainer>
-          <SideNavMenu />
-          {this.renderListView()}
-        </MainContainer>
-      </VideoItemDetailsContainer>
+      <ThemeContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+          return (
+            <VideoItemDetailsContainer
+              data-testid="videoItemDetails"
+              isdark={isDarkTheme}
+            >
+              <Header />
+              <MainContainer>
+                <SideNavMenu />
+                {this.renderListView()}
+              </MainContainer>
+            </VideoItemDetailsContainer>
+          )
+        }}
+      </ThemeContext.Consumer>
     )
   }
 }

@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 import {HiFire} from 'react-icons/hi'
 import {BsDot} from 'react-icons/bs'
 
+import ThemeContext from '../../ThemeContext'
 import Header from '../Header'
 import SideNavMenu from '../SideMenu'
 import {
@@ -97,35 +98,40 @@ class Trending extends Component {
     </FailureViewContainer>
   )
 
-  renderSuccessView = () => {
-    const {trendingVideos} = this.state
-    return (
-      <SuccessListViewContainer>
-        {trendingVideos.map(each => (
-          <EachVideoCard key={each.id}>
-            <CustomLink to={`/videos/${each.id}`}>
-              <Image src={each.thumbnailUrl} alt="video thumbnail" />
-              <DescriptionContainer>
-                <ChannelThumbnail
-                  src={each.channel.profileImageUrl}
-                  alt="thumbnail"
-                />
-                <DescriptionCard>
-                  <Title>{each.title}</Title>
-                  <ChannelName>{each.channel.name}</ChannelName>
-                  <CountAndDateContainer>
-                    <ViewCount>{each.viewCount} Views</ViewCount>
-                    <BsDot />
-                    <PublishDate>{each.publishedAt}</PublishDate>
-                  </CountAndDateContainer>
-                </DescriptionCard>
-              </DescriptionContainer>
-            </CustomLink>
-          </EachVideoCard>
-        ))}
-      </SuccessListViewContainer>
-    )
-  }
+  renderSuccessView = () => (
+    <ThemeContext.Consumer>
+      {value => {
+        const {isDarkTheme} = value
+        const {trendingVideos} = this.state
+        return (
+          <SuccessListViewContainer>
+            {trendingVideos.map(each => (
+              <EachVideoCard key={each.id}>
+                <CustomLink to={`/videos/${each.id}`}>
+                  <Image src={each.thumbnailUrl} alt="video thumbnail" />
+                  <DescriptionContainer>
+                    <ChannelThumbnail
+                      src={each.channel.profileImageUrl}
+                      alt="thumbnail"
+                    />
+                    <DescriptionCard>
+                      <Title isdark={isDarkTheme}>{each.title}</Title>
+                      <ChannelName>{each.channel.name}</ChannelName>
+                      <CountAndDateContainer>
+                        <ViewCount>{each.viewCount} Views</ViewCount>
+                        <BsDot />
+                        <PublishDate>{each.publishedAt}</PublishDate>
+                      </CountAndDateContainer>
+                    </DescriptionCard>
+                  </DescriptionContainer>
+                </CustomLink>
+              </EachVideoCard>
+            ))}
+          </SuccessListViewContainer>
+        )
+      }}
+    </ThemeContext.Consumer>
+  )
 
   renderLoadingView = () => (
     <LoadingViewContainer className="loader-container" data-testid="loader">
@@ -150,28 +156,35 @@ class Trending extends Component {
 
   render() {
     return (
-      <TrendingContainer>
-        <Header />
-        <MainContainer>
-          <SideNavMenu />
-          <TrendingCard>
-            <HeadingContainer>
-              <HiFire
-                style={{
-                  color: '#ff0b37',
-                  backgroundColor: ' #cbd5e1',
-                  height: '50px',
-                  width: '50px',
-                  borderRadius: '25px',
-                  marginRight: '10px',
-                }}
-              />
-              <h1>Trending</h1>
-            </HeadingContainer>
-            {this.renderListView()}
-          </TrendingCard>
-        </MainContainer>
-      </TrendingContainer>
+      <ThemeContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+          return (
+            <TrendingContainer isdark={isDarkTheme} data-testid="trending">
+              <Header />
+              <MainContainer>
+                <SideNavMenu />
+                <TrendingCard>
+                  <HeadingContainer>
+                    <HiFire
+                      style={{
+                        color: '#ff0b37',
+                        backgroundColor: ' #cbd5e1',
+                        height: '50px',
+                        width: '50px',
+                        borderRadius: '25px',
+                        marginRight: '10px',
+                      }}
+                    />
+                    <h1>Trending</h1>
+                  </HeadingContainer>
+                  {this.renderListView()}
+                </TrendingCard>
+              </MainContainer>
+            </TrendingContainer>
+          )
+        }}
+      </ThemeContext.Consumer>
     )
   }
 }

@@ -23,6 +23,7 @@ import {
   ViewCount,
   CustomLink,
 } from './styledComponents'
+import ThemeContext from '../../ThemeContext'
 
 const apiStatusConstants = {
   success: 'SUCCESS',
@@ -86,24 +87,29 @@ class Gaming extends Component {
     </FailureViewContainer>
   )
 
-  renderSuccessView = () => {
-    const {gamingVideos} = this.state
-    return (
-      <SuccessListViewContainer>
-        {gamingVideos.map(each => (
-          <EachVideoCard key={each.id}>
-            <CustomLink to={`/videos/${each.id}`}>
-              <Image src={each.thumbnailUrl} alt="video thumbnail" />
-              <DescriptionContainer>
-                <Title>{each.title}</Title>
-                <ViewCount>{each.viewCount} Watching Worldwide</ViewCount>
-              </DescriptionContainer>
-            </CustomLink>
-          </EachVideoCard>
-        ))}
-      </SuccessListViewContainer>
-    )
-  }
+  renderSuccessView = () => (
+    <ThemeContext.Consumer>
+      {value => {
+        const {isDarkTheme} = value
+        const {gamingVideos} = this.state
+        return (
+          <SuccessListViewContainer>
+            {gamingVideos.map(each => (
+              <EachVideoCard key={each.id}>
+                <CustomLink to={`/videos/${each.id}`}>
+                  <Image src={each.thumbnailUrl} alt="video thumbnail" />
+                  <DescriptionContainer>
+                    <Title isdark={isDarkTheme}>{each.title}</Title>
+                    <ViewCount>{each.viewCount} Watching Worldwide</ViewCount>
+                  </DescriptionContainer>
+                </CustomLink>
+              </EachVideoCard>
+            ))}
+          </SuccessListViewContainer>
+        )
+      }}
+    </ThemeContext.Consumer>
+  )
 
   renderLoadingView = () => (
     <LoadingViewContainer className="loader-container" data-testid="loader">
@@ -128,28 +134,35 @@ class Gaming extends Component {
 
   render() {
     return (
-      <TrendingContainer>
-        <Header />
-        <MainContainer>
-          <SideNavMenu />
-          <TrendingCard>
-            <HeadingContainer>
-              <FaGamepad
-                style={{
-                  color: '#ff0b37',
-                  backgroundColor: ' #cbd5e1',
-                  height: '50px',
-                  width: '50px',
-                  borderRadius: '25px',
-                  marginRight: '10px',
-                }}
-              />
-              <h1>Gaming</h1>
-            </HeadingContainer>
-            {this.renderListView()}
-          </TrendingCard>
-        </MainContainer>
-      </TrendingContainer>
+      <ThemeContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+          return (
+            <TrendingContainer data-testid="gaming" isdark={isDarkTheme}>
+              <Header />
+              <MainContainer>
+                <SideNavMenu />
+                <TrendingCard>
+                  <HeadingContainer>
+                    <FaGamepad
+                      style={{
+                        color: '#ff0b37',
+                        backgroundColor: ' #cbd5e1',
+                        height: '50px',
+                        width: '50px',
+                        borderRadius: '25px',
+                        marginRight: '10px',
+                      }}
+                    />
+                    <h1>Gaming</h1>
+                  </HeadingContainer>
+                  {this.renderListView()}
+                </TrendingCard>
+              </MainContainer>
+            </TrendingContainer>
+          )
+        }}
+      </ThemeContext.Consumer>
     )
   }
 }

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const HeaderContainer = styled.nav`
   display: flex;
-  background-color: ${props => (props.isDarkTheme ? '#1e293b' : '#f8fafc')};
+  background-color: ${props => props.bgColor};
   margin: 0;
 `
 export const MainContainer = styled.ul`
@@ -40,7 +40,7 @@ export const Button = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
-  color: ${props => (props.isDarkTheme ? '#f8fafc' : '')};
+  color: ${props => props.color};
 
   @media screen and (min-width: 768px) {
     font-size: 30px;
@@ -53,8 +53,8 @@ export const LogoutButton = styled.button`
   font-weight: 500;
   height: 35px;
   width: 120px;
-  border: 2px solid ${props => (props.isDarkTheme ? '#f8fafc' : '#3b82f6')};
-  color: ${props => (props.isDarkTheme ? '#f8fafc' : '#3b82f6')};
+  border: 2px solid ${props => props.border};
+  color: ${props => props.border};
   cursor: pointer;
 `
 export const MobileContainer = styled.li`

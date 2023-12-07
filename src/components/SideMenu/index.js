@@ -19,37 +19,79 @@ import ThemeContext from '../../ThemeContext/index'
 const SideNavMenu = () => (
   <ThemeContext.Consumer>
     {value => {
-      const {isDarkTheme} = value
+      const {isDarkTheme, changeTab, activeTab} = value
+
+      const activeBg = isDarkTheme ? '#475569' : '#cbd5e1'
+      const activeColor = isDarkTheme ? '#f8fafc' : '#000000'
+      const bgColor = isDarkTheme ? ' #231f20' : '#f8fafc'
+
+      const onClickHomeTab = () => {
+        changeTab('Home')
+      }
+      const onClickTrendingTab = () => {
+        changeTab('Trending')
+      }
+      const onClickGamingTab = () => {
+        changeTab('Gaming')
+      }
+      const onClickSavedTab = () => {
+        changeTab('Saved')
+      }
+
       return (
-        <SideMenuContainer isDarkTheme={isDarkTheme}>
+        <SideMenuContainer bgColor={bgColor}>
           <NavContainer>
             <NavList>
-              <NavLink to="/" isDarkTheme={isDarkTheme}>
-                <AiFillHome />
-                <NavTitle> Home</NavTitle>
+              <NavLink
+                to="/"
+                onClick={onClickHomeTab}
+                active={activeTab === 'Home' ? activeBg : ''}
+              >
+                <AiFillHome
+                  color={activeTab === 'Home' ? ' #ff0000' : '#475569'}
+                />
+                <NavTitle color={activeColor}> Home</NavTitle>
               </NavLink>
             </NavList>
             <NavList>
-              <NavLink to="/trending" isDarkTheme={isDarkTheme}>
-                <FaGamepad />
-                <NavTitle>Trending</NavTitle>
+              <NavLink
+                to="/trending"
+                onClick={onClickTrendingTab}
+                active={activeTab === 'Trending' ? activeBg : ''}
+              >
+                <FaGamepad
+                  color={activeTab === 'Trending' ? ' #ff0000' : '#475569'}
+                />
+                <NavTitle color={activeColor}>Trending</NavTitle>
               </NavLink>
             </NavList>
             <NavList>
-              <NavLink to="/gaming" isDarkTheme={isDarkTheme}>
-                <HiFire />
-                <NavTitle>Gaming</NavTitle>
+              <NavLink
+                to="/gaming"
+                onClick={onClickGamingTab}
+                active={activeTab === 'Gaming' ? activeBg : ''}
+              >
+                <HiFire
+                  color={activeTab === 'Gaming' ? ' #ff0000' : '#475569'}
+                />
+                <NavTitle color={activeColor}>Gaming</NavTitle>
               </NavLink>
             </NavList>
             <NavList>
-              <NavLink to="/saved-videos" isDarkTheme={isDarkTheme}>
-                <RiPlayListAddLine />
-                <NavTitle> Saved Videos</NavTitle>
+              <NavLink
+                to="/saved-videos"
+                onClick={onClickSavedTab}
+                active={activeTab === 'Saved' ? activeBg : ''}
+              >
+                <RiPlayListAddLine
+                  color={activeTab === 'Saved' ? ' #ff0000' : '#475569'}
+                />
+                <NavTitle color={activeColor}> Saved Videos</NavTitle>
               </NavLink>
             </NavList>
           </NavContainer>
           <BottomContainer>
-            <BottomHeading isDarkTheme={isDarkTheme}>CONTACT US</BottomHeading>
+            <BottomHeading isdark={isDarkTheme}>CONTACT US</BottomHeading>
             <SocialIconsContainer>
               <BottomImage
                 src="https://assets.ccbp.in/frontend/react-js/nxt-watch-facebook-logo-img.png"
@@ -64,7 +106,7 @@ const SideNavMenu = () => (
                 alt="linked in logo"
               />
             </SocialIconsContainer>
-            <BottomDescription isDarkTheme={isDarkTheme}>
+            <BottomDescription isdark={isDarkTheme}>
               Enjoy! Now to see your channels and recommendations!
             </BottomDescription>
           </BottomContainer>
